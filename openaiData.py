@@ -1,7 +1,7 @@
 import requests
 import os
 
-api_key = os.environ['OPENAI_KEY']#  Replace with your
+api_key = os.environ['KEY']#  Replace with your
 
 endpoint = "https://api.openai.com/v1/completions"
 
