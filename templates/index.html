@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Shayari Generator</title>
+</head>
+<body>
+  <h1>Welcome to Shayari Generator</h1>
+  <p>Click the button to generate a random Shayari</p>
+  <div>
+    <input name="value" id="value"></input>
+    <button onclick="addData()">Generate Shayari</button>
+  </div>
+  <div>
+    <div id="shayari"></div>
+  </div>
+</body>
+<script>
+  function addData() {
+    const value = document.getElementById('value').value;
+    fetch('/GeneratShayari/val', {
+      method: 'POST',
+      body: new URLSearchParams({ value }), // Send the input value to the server
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+    })
+    .then(response => response.json())
+    .then(data => {
+      // Extract the "text" field from the JSON response
+      const shayariText = data.text || 'No Shayari available';
+
+      // Update the content of the <div> with the received Shayari text
+      const shayariElement = document.getElementById('shayari');
+      shayariElement.innerHTML = '';
+      console.log(shayariText);
+      let arr = shayariText.split("\n\n");
+      let div1 = document.createElement('div');
+
+      for (let i = 0; i < arr.length; i++) {
+        let p = document.createElement('p');
+        p.innerHTML += arr[i] + "<br>";
+        div1.appendChild(p); // Fix typo 'appned' to 'appendChild'
+      }
+
+      shayariElement.appendChild(div1); // Use 'appendChild' to add 'div1' to 'shayariElement'
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+  }
+</script>
+</html>
